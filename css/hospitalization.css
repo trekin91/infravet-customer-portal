@@ -1,0 +1,419 @@
+@keyframes hospit-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(91, 192, 190, 0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(91, 192, 190, 0); }
+}
+
+.hospit-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    border-left: 3px solid var(--color-border);
+    cursor: pointer;
+    margin-bottom: var(--space-3);
+}
+
+.hospit-card__emoji {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(91, 192, 190, 0.15) 0%, rgba(91, 192, 190, 0.05) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xl);
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(91, 192, 190, 0.15);
+}
+
+.hospit-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.hospit-card__animal {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.hospit-card__reason {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+}
+
+.hospit-card__vet {
+    font-size: var(--font-size-xs);
+    color: var(--color-accent);
+    margin-top: var(--space-1);
+}
+
+.hospit-card__date {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    margin-top: var(--space-1);
+}
+
+.hospit-status {
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+.hospit-mini-progress {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+    padding-top: var(--space-2);
+}
+
+.hospit-mini-progress__dot {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--color-border);
+}
+
+.hospit-mini-progress__dot--done {
+    background: var(--color-accent);
+}
+
+.hospit-mini-progress__dot--current {
+    background: var(--color-accent);
+    animation: hospit-pulse 2s ease-in-out infinite;
+}
+
+.hospit-progress {
+    margin: var(--space-4) 0;
+}
+
+.hospit-progress__track {
+    height: 6px;
+    background: var(--color-border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: var(--space-3);
+}
+
+.hospit-progress__fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-dark, #3da8a6) 100%);
+    border-radius: 3px;
+    transition: width var(--transition-normal);
+}
+
+.hospit-progress__labels {
+    display: flex;
+    justify-content: space-between;
+}
+
+.hospit-progress__step {
+    font-size: 0.6rem;
+    color: var(--color-text-tertiary);
+    text-align: center;
+    flex: 1;
+    line-height: var(--line-height-tight);
+}
+
+.hospit-progress__step--done {
+    color: var(--color-accent-dark, #3da8a6);
+    font-weight: var(--font-weight-medium);
+}
+
+.hospit-progress__step--current {
+    color: var(--color-accent);
+    font-weight: var(--font-weight-semibold);
+}
+
+.detail-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.btn-back {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    flex-shrink: 0;
+    color: var(--color-text-primary);
+}
+
+.detail-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+}
+
+.hospit-detail-banner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-4);
+    color: white;
+}
+
+.hospit-detail-banner__emoji {
+    font-size: var(--font-size-3xl);
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.hospit-detail-banner__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.hospit-detail-banner__name {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    opacity: 0.95;
+}
+
+.hospit-detail-banner__status {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    margin-top: var(--space-1);
+}
+
+.hospit-detail-banner__reason {
+    font-size: var(--font-size-sm);
+    opacity: 0.85;
+    margin-top: var(--space-1);
+}
+
+.hospit-section-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-3);
+}
+
+.hospit-detail-info,
+.hospit-detail-progress,
+.hospit-detail-photos,
+.hospit-detail-timeline {
+    margin-bottom: var(--space-4);
+}
+
+.info-list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
+}
+
+.info-list dt {
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.info-list dd {
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.hospit-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+}
+
+.hospit-photo-thumb {
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.hospit-photo-thumb img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+}
+
+.hospit-photo-caption {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    padding: var(--space-1) var(--space-2);
+    text-align: center;
+}
+
+.hospit-timeline {
+    position: relative;
+    padding-left: var(--space-6);
+}
+
+.hospit-timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-border);
+}
+
+.hospit-timeline__item {
+    position: relative;
+    margin-bottom: var(--space-4);
+}
+
+.hospit-timeline__item::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--space-6) * -1 + 4px);
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 2px solid var(--color-surface);
+}
+
+.hospit-timeline__date {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-1);
+}
+
+.hospit-timeline__desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-2);
+}
+
+.hospit-timeline__photo {
+    max-width: 200px;
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-2);
+    cursor: pointer;
+}
+
+.hospit-photo-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+}
+
+.hospit-photo-modal__close {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: var(--font-size-2xl);
+    cursor: pointer;
+    border: none;
+    background: none;
+    z-index: 1;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.hospit-photo-modal__img {
+    max-width: 100%;
+    max-height: calc(100vh - 120px);
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+}
+
+.hospit-photo-modal__caption {
+    font-size: var(--font-size-sm);
+    color: white;
+    margin-top: var(--space-3);
+    text-align: center;
+    opacity: 0.8;
+}
+
+@media (hover: hover) {
+    .hospit-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+    }
+
+    .hospit-photo-thumb:hover {
+        transform: scale(1.03);
+        box-shadow: var(--shadow-md);
+    }
+
+    .hospit-timeline__photo:hover {
+        opacity: 0.85;
+    }
+}
+
+@media (min-width: 768px) {
+    .hospit-photo-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .hospit-progress__step {
+        font-size: var(--font-size-xs);
+    }
+}
+
+@media (min-width: 1024px) {
+    .hospit-card {
+        padding: var(--space-5);
+        gap: var(--space-4);
+    }
+
+    .hospit-card__emoji {
+        width: 56px;
+        height: 56px;
+        font-size: var(--font-size-2xl);
+    }
+
+    .hospit-card__animal {
+        font-size: var(--font-size-lg);
+    }
+
+    .hospit-detail-banner {
+        padding: var(--space-6) var(--space-8);
+    }
+
+    .hospit-detail-banner__emoji {
+        font-size: 2.5rem;
+    }
+
+    .hospit-detail-banner__name {
+        font-size: var(--font-size-xl);
+    }
+
+    .hospit-photo-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .hospit-timeline__photo {
+        max-width: 280px;
+    }
+
+    .hospit-photo-modal__img {
+        max-width: 80%;
+        max-height: calc(100vh - 160px);
+    }
+
+    .hospit-section-title {
+        font-size: var(--font-size-lg);
+    }
+}

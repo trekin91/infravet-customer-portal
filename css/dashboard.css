@@ -1,0 +1,293 @@
+.dashboard-greeting {
+    margin-bottom: var(--space-6);
+}
+
+.greeting-text {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.greeting-sub {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+}
+
+.dashboard-section {
+    margin-bottom: var(--space-6);
+}
+
+.next-appt-card {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    color: var(--color-text-inverse);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+    box-shadow: 0 8px 28px rgba(27, 58, 75, 0.25);
+}
+
+.next-appt-card .appt-label {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+    margin-bottom: var(--space-2);
+}
+
+.next-appt-card .appt-animal {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-1);
+}
+
+.next-appt-card .appt-reason {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+    margin-bottom: var(--space-3);
+}
+
+.next-appt-card .appt-date {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.next-appt-card .appt-date svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+}
+
+.animal-cards-scroll {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding-bottom: var(--space-2);
+}
+
+.animal-quick-card {
+    flex: 0 0 calc((100% - var(--space-3) * 2) / 3);
+    min-width: 100px;
+    padding: var(--space-4);
+    text-align: center;
+    cursor: pointer;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 12px rgba(27, 58, 75, 0.1), 0 0 0 1px rgba(27, 58, 75, 0.06);
+    transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+}
+
+.animal-quick-card .animal-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(91, 192, 190, 0.15) 0%, rgba(91, 192, 190, 0.05) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-3);
+    font-size: var(--font-size-2xl);
+    box-shadow: 0 2px 8px rgba(91, 192, 190, 0.15);
+}
+
+.animal-quick-card .animal-name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-1);
+}
+
+.animal-quick-card .animal-species {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+.notif-item {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-divider);
+}
+
+.notif-item:last-child {
+    border-bottom: none;
+}
+
+.notif-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex-shrink: 0;
+    margin-top: 6px;
+    box-shadow: 0 0 6px rgba(91, 192, 190, 0.4);
+}
+
+.notif-dot.read {
+    background: var(--color-border);
+}
+
+.notif-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notif-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-1);
+}
+
+.notif-message {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-normal);
+}
+
+.notif-date {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    margin-top: var(--space-1);
+}
+
+.dashboard-welcome {
+    text-align: center;
+    padding: var(--space-8) var(--space-4);
+}
+
+.dashboard-welcome__icon {
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: var(--space-4);
+}
+
+.dashboard-welcome__title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-3);
+}
+
+.dashboard-welcome__text {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-normal);
+    margin-bottom: var(--space-3);
+}
+
+.dashboard-welcome__hint {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+}
+
+.hospit-banner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-4);
+    background: linear-gradient(135deg, rgba(91, 192, 190, 0.08) 0%, rgba(91, 192, 190, 0.03) 100%);
+    border-left: 3px solid var(--color-accent);
+}
+
+.hospit-banner__icon {
+    font-size: var(--font-size-2xl);
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.hospit-banner__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.hospit-banner__title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.hospit-banner__desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+}
+
+.hospit-banner__link {
+    font-size: var(--font-size-sm);
+    color: var(--color-accent);
+    font-weight: var(--font-weight-medium);
+    margin-top: var(--space-2);
+}
+
+@media (hover: hover) {
+    .animal-quick-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+    }
+}
+
+@media (min-width: 768px) {
+    .animal-cards-scroll {
+        flex-wrap: wrap;
+        overflow-x: visible;
+    }
+
+    .animal-quick-card {
+        width: calc(33.33% - var(--space-3));
+    }
+}
+
+@media (min-width: 1024px) {
+    .greeting-text {
+        font-size: var(--font-size-3xl);
+    }
+
+    .greeting-sub {
+        font-size: var(--font-size-base);
+    }
+
+    .next-appt-card {
+        padding: var(--space-8);
+    }
+
+    .next-appt-card .appt-animal {
+        font-size: var(--font-size-2xl);
+    }
+
+    .next-appt-card .appt-date {
+        font-size: var(--font-size-base);
+    }
+
+    .animal-quick-card {
+        width: calc(25% - var(--space-3));
+        padding: var(--space-5);
+    }
+
+    .animal-quick-card .animal-avatar {
+        width: 64px;
+        height: 64px;
+        font-size: var(--font-size-3xl);
+    }
+
+    .animal-quick-card .animal-name {
+        font-size: var(--font-size-base);
+    }
+
+    .dashboard-welcome {
+        padding: var(--space-12) var(--space-8);
+    }
+
+    .dashboard-welcome__icon {
+        font-size: 64px;
+    }
+
+    .dashboard-welcome__title {
+        font-size: var(--font-size-2xl);
+    }
+}

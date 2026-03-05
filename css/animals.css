@@ -1,0 +1,388 @@
+.animal-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-3);
+    cursor: pointer;
+}
+
+.animal-card__photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: linear-gradient(135deg, rgba(91, 192, 190, 0.15) 0%, rgba(91, 192, 190, 0.05) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-2xl);
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(91, 192, 190, 0.15);
+}
+
+.animal-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.animal-card__name {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.animal-card__breed {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+}
+
+.animal-card__age {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    margin-top: var(--space-1);
+}
+
+.animal-card__chevron {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-size-xl);
+    flex-shrink: 0;
+}
+
+.animal-detail-hero {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.animal-detail-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--color-accent-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-3xl);
+    flex-shrink: 0;
+}
+
+.animal-detail-info h2 {
+    font-size: var(--font-size-xl);
+}
+
+.animal-detail-info p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+}
+
+.consult-timeline {
+    position: relative;
+    padding-left: var(--space-6);
+}
+
+.consult-timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-border);
+}
+
+.consult-item {
+    position: relative;
+    margin-bottom: var(--space-4);
+}
+
+.consult-item::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--space-6) * -1 + 4px);
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 2px solid var(--color-surface);
+}
+
+.consult-item .consult-date {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-1);
+}
+
+.consult-item .consult-type {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-1);
+}
+
+.consult-item .consult-vet {
+    font-size: var(--font-size-xs);
+    color: var(--color-accent);
+    margin-bottom: var(--space-2);
+}
+
+.consult-item .consult-reason,
+.consult-item .consult-diagnosis {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-1);
+}
+
+.consult-item .consult-diagnosis {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+}
+
+.consult-item .consult-vitals {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+.vacc-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+}
+
+.vacc-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.vacc-card__name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.vacc-card__details {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+}
+
+.vacc-card__next {
+    font-size: var(--font-size-xs);
+    margin-top: var(--space-1);
+}
+
+.treat-card {
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+}
+
+.treat-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+}
+
+.treat-card__name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.treat-card__type {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+.treat-card__detail {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-1);
+}
+
+.treat-card__instructions {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+    font-style: italic;
+    background: var(--color-bg);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-2);
+}
+
+.weight-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+}
+
+.weight-current {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-1);
+}
+
+.weight-current__value {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    line-height: 1;
+}
+
+.weight-current__unit {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.weight-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-1);
+}
+
+.weight-meta__date {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+.weight-trend {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+}
+
+.weight-trend--up {
+    color: var(--color-warning);
+    background: var(--color-warning-bg);
+}
+
+.weight-trend--down {
+    color: var(--color-error);
+    background: var(--color-error-bg);
+}
+
+.weight-trend--stable {
+    color: var(--color-success);
+    background: var(--color-success-bg);
+}
+
+.weight-chart {
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+}
+
+.weight-chart__title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-3);
+}
+
+.weight-chart__area {
+    width: 100%;
+    overflow: hidden;
+}
+
+.weight-chart__svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.weight-history {
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+}
+
+.weight-history__title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-3);
+}
+
+.weight-history__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-divider);
+}
+
+.weight-history__row:last-child {
+    border-bottom: none;
+}
+
+.weight-history__date {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.weight-history__value {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+}
+
+@media (min-width: 768px) {
+    .animal-card-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-3);
+    }
+
+    .animal-card {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .animal-card-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-4);
+    }
+
+    .animal-card__photo {
+        width: 68px;
+        height: 68px;
+        font-size: var(--font-size-3xl);
+    }
+
+    .animal-detail-hero {
+        gap: var(--space-6);
+        margin-bottom: var(--space-6);
+    }
+
+    .animal-detail-avatar {
+        width: 88px;
+        height: 88px;
+    }
+
+    .animal-detail-info h2 {
+        font-size: var(--font-size-2xl);
+    }
+
+    .vacc-card,
+    .treat-card {
+        padding: var(--space-5);
+    }
+
+    .weight-summary,
+    .weight-chart,
+    .weight-history {
+        padding: var(--space-5);
+    }
+
+    .weight-current__value {
+        font-size: 2.5rem;
+    }
+}

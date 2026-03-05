@@ -1,0 +1,163 @@
+.appt-card {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-4) var(--space-4) var(--space-5);
+    margin-bottom: var(--space-3);
+    border-left: 3px solid var(--color-accent);
+}
+
+.appt-card__date-col {
+    text-align: center;
+    min-width: 50px;
+    flex-shrink: 0;
+}
+
+.appt-card__day {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent);
+    line-height: 1;
+}
+
+.appt-card__month {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    margin-top: var(--space-1);
+}
+
+.appt-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.appt-card__animal {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+}
+
+.appt-card__reason {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+}
+
+.appt-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-2);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+.appt-card__meta span {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.appt-status {
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+.appt-cancel-btn {
+    align-self: flex-end;
+    flex-shrink: 0;
+    margin-top: var(--space-2);
+    font-size: var(--font-size-xs);
+    padding: var(--space-1) var(--space-3);
+    color: var(--color-error);
+    border-color: var(--color-error);
+}
+
+.appt-card {
+    flex-wrap: wrap;
+}
+
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--space-4);
+}
+
+.confirm-dialog {
+    max-width: 360px;
+    width: 100%;
+    padding: var(--space-6);
+    text-align: center;
+}
+
+.confirm-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-3);
+}
+
+.confirm-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-5);
+    white-space: pre-line;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+}
+
+.btn--danger {
+    background: var(--color-error);
+    color: white;
+    border: none;
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+}
+
+.btn--sm {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+}
+
+@media (min-width: 768px) {
+    .appt-card {
+        padding: var(--space-5) var(--space-5) var(--space-5) var(--space-6);
+    }
+
+    .appt-card__day {
+        font-size: var(--font-size-3xl);
+    }
+
+    .appt-card__date-col {
+        min-width: 60px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .appt-card {
+        padding: var(--space-5) var(--space-6) var(--space-5) var(--space-8);
+    }
+
+    .appt-card__animal {
+        font-size: var(--font-size-lg);
+    }
+
+    .appt-card__meta {
+        font-size: var(--font-size-sm);
+    }
+
+    .confirm-dialog {
+        max-width: 420px;
+        padding: var(--space-8);
+    }
+}

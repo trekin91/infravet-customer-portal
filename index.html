@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#1B3A4B">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Suivez la sante de vos animaux, vos rendez-vous et documents veterinaires">
+    <!-- PROD: remplacer connect-src par le domaine API reel, retirer ws://localhost, unsafe-inline et https://picsum.photos -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://picsum.photos https://fastly.picsum.photos; font-src 'self'; connect-src 'self' ws://localhost:* ws://127.0.0.1:*; form-action 'self'; base-uri 'self';">
+    <title>Infravet</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/logo/favicon-96x96.png">
+    <link rel="shortcut icon" href="assets/logo/favicon.ico">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/animals.css">
+    <link rel="stylesheet" href="css/appointments.css">
+    <link rel="stylesheet" href="css/hospitalization.css">
+    <link rel="stylesheet" href="css/documents.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/install-prompt.css">
+</head>
+<body>
+
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-content">
+            <img id="splash-clinic-logo" class="splash-clinic-logo" alt="" hidden>
+            <h1 id="splash-clinic-name" class="splash-clinic-name">Espace client</h1>
+            <div class="splash-loader">
+                <div class="splash-loader__dot"></div>
+                <div class="splash-loader__dot"></div>
+                <div class="splash-loader__dot"></div>
+            </div>
+        </div>
+        <div class="splash-footer">
+            <span>Propulse par</span>
+            <img src="assets/logo/infravet V1 transparent long.png" alt="Infravet" class="powered-by-logo">
+        </div>
+    </div>
+
+    <!-- Auth Screen -->
+    <div id="auth-screen" class="screen">
+        <div class="auth-container">
+            <div class="auth-logo">
+                <img id="auth-clinic-logo" class="auth-clinic-logo" alt="" hidden>
+                <h2 id="auth-clinic-name" class="auth-clinic-name">Espace client</h2>
+            </div>
+
+            <!-- Step 1: Phone -->
+            <div id="auth-phone-step" class="auth-form-card">
+                <h1 class="auth-title">Bienvenue</h1>
+                <p class="auth-subtitle">Entrez votre numero de telephone pour acceder a votre espace</p>
+                <form id="phone-form" autocomplete="off">
+                    <div class="input-group">
+                        <input
+                            type="tel"
+                            id="phone-input"
+                            class="input"
+                            placeholder="06 12 34 56 78"
+                            inputmode="tel"
+                            autocomplete="tel"
+                            aria-label="Numero de telephone"
+                            required
+                        >
+                    </div>
+                    <button type="submit" id="phone-submit-btn" class="btn btn--primary btn--full">
+                        Recevoir mon code
+                    </button>
+                </form>
+            </div>
+
+            <!-- Step 2: OTP -->
+            <div id="auth-otp-step" class="auth-form-card" hidden>
+                <h1 class="auth-title">Verification</h1>
+                <div class="otp-phone-info">
+                    <p>Code envoye au <span id="otp-phone-display"></span></p>
+                </div>
+                <div class="otp-container">
+                    <input type="text" class="otp-input" data-index="0" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Chiffre 1">
+                    <input type="text" class="otp-input" data-index="1" inputmode="numeric" maxlength="1" aria-label="Chiffre 2">
+                    <input type="text" class="otp-input" data-index="2" inputmode="numeric" maxlength="1" aria-label="Chiffre 3">
+                    <input type="text" class="otp-input" data-index="3" inputmode="numeric" maxlength="1" aria-label="Chiffre 4">
+                    <input type="text" class="otp-input" data-index="4" inputmode="numeric" maxlength="1" aria-label="Chiffre 5">
+                    <input type="text" class="otp-input" data-index="5" inputmode="numeric" maxlength="1" aria-label="Chiffre 6">
+                </div>
+                <div class="otp-actions">
+                    <button type="button" id="otp-resend-btn" disabled>Renvoyer le code</button>
+                    <button type="button" id="otp-back-btn">Modifier le numero</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="auth-footer">
+            <span>Propulse par</span>
+            <img src="assets/logo/infravet V1 transparent long.png" alt="Infravet" class="powered-by-logo">
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app-shell" class="screen" hidden>
+
+        <!-- Header -->
+        <header id="app-header">
+            <div class="header-branding">
+                <img id="header-clinic-logo" class="header-clinic-logo" alt="" hidden>
+                <span id="header-clinic-name" class="header-clinic-name">Espace client</span>
+            </div>
+            <div class="header-actions">
+                <button id="refresh-btn" class="btn-refresh" aria-label="Rafraichir">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M21 4v4h-4"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path><path d="M3 20v-4h4"></path></svg>
+                </button>
+                <button id="logout-header-btn" class="btn-header-action" aria-label="Se deconnecter">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <path d="M16 17l5-5-5-5"></path>
+                        <path d="M21 12H9"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <main id="app-content">
+            <div id="ptr-indicator" class="ptr-indicator" aria-hidden="true">
+                <div class="spinner-small"></div>
+            </div>
+
+            <!-- Dashboard -->
+            <section id="page-dashboard" class="page active" data-page="dashboard">
+                <div class="page-content"></div>
+            </section>
+
+            <!-- Animals List -->
+            <section id="page-animals" class="page" data-page="animals">
+                <div class="page-header">
+                    <h1>Mes animaux</h1>
+                </div>
+                <div class="page-content"></div>
+            </section>
+
+            <!-- Animal Detail -->
+            <section id="page-animal-detail" class="page" data-page="animal-detail">
+                <div class="page-content"></div>
+            </section>
+
+            <!-- Hospitalization -->
+            <section id="page-hospitalization" class="page" data-page="hospitalization">
+                <div class="page-header">
+                    <h1>Hospitalisation</h1>
+                </div>
+                <div class="page-content"></div>
+            </section>
+
+            <!-- Appointments -->
+            <section id="page-appointments" class="page" data-page="appointments">
+                <div class="page-header">
+                    <h1>Rendez-vous</h1>
+                </div>
+                <div class="page-content"></div>
+            </section>
+
+            <!-- Documents -->
+            <section id="page-documents" class="page" data-page="documents">
+                <div class="page-header">
+                    <h1>Documents</h1>
+                </div>
+                <div class="page-content"></div>
+            </section>
+
+            <!-- Profile -->
+            <section id="page-profile" class="page" data-page="profile">
+                <div class="page-header">
+                    <h1>Mon profil</h1>
+                </div>
+                <div class="page-content"></div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav id="bottom-nav" aria-label="Navigation principale">
+            <button class="nav-tab active" data-tab="dashboard" aria-current="page">
+                <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span>Accueil</span>
+            </button>
+            <button class="nav-tab" data-tab="animals">
+                <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 21c-1.5 0-3-1.5-3-3.5 0-1.5.5-2.5 1-3.5.5 1 1.5 2 3 2s2.5-1 3-2c.5 1 1 2 1 3.5 0 2-1.5 3.5-3 3.5z"></path>
+                    <path d="M8 14c-1.5 0-3-1-3-2.5S6.5 9 8 9s3 1 3 2.5S9.5 14 8 14z"></path>
+                    <path d="M16 14c1.5 0 3-1 3-2.5S17.5 9 16 9s-3 1-3 2.5 1.5 2.5 3 2.5z"></path>
+                    <path d="M7 7.5C7 6 8 4.5 9.5 4.5S12 6 12 7.5 11 10 9.5 10 7 9 7 7.5z"></path>
+                    <path d="M17 7.5c0-1.5-1-3-2.5-3S12 6 12 7.5 13 10 14.5 10 17 9 17 7.5z"></path>
+                </svg>
+                <span>Animaux</span>
+            </button>
+            <button class="nav-tab" data-tab="hospitalization">
+                <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+                <span>Hospit</span>
+            </button>
+            <button class="nav-tab" data-tab="appointments">
+                <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>RDV</span>
+            </button>
+            <button class="nav-tab" data-tab="documents">
+                <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <span>Documents</span>
+            </button>
+            <button class="nav-tab" data-tab="profile">
+                <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Profil</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast-container" aria-live="polite"></div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay" hidden>
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- PROD: supprimer la ligne mock-server.js ci-dessous -->
+    <script src="mocks/mock-server.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/install-prompt.js"></script>
+    <script src="js/pages/dashboard.js"></script>
+    <script src="js/pages/animals.js"></script>
+    <script src="js/pages/animal-detail.js"></script>
+    <script src="js/pages/hospitalization.js"></script>
+    <script src="js/pages/appointments.js"></script>
+    <script src="js/pages/documents.js"></script>
+    <script src="js/pages/profile.js"></script>
+    <script src="js/pull-to-refresh.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
