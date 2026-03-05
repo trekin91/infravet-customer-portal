@@ -2,7 +2,8 @@ var InfravetConfig = (function () {
     'use strict';
 
     var isDev = window.location.hostname === 'localhost'
-        || window.location.hostname === '127.0.0.1';
+        || window.location.hostname === '127.0.0.1'
+        || window.location.hostname.endsWith('.github.io');
 
     var config = {
         API_BASE_URL: '/api/customer-portal',
