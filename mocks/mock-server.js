@@ -718,7 +718,7 @@ var MockServer = (function () {
 
     function init() {
         var host = window.location.hostname;
-        if (host !== 'localhost' && host !== '127.0.0.1') {
+        if (host !== 'localhost' && host !== '127.0.0.1' && !host.endsWith('.github.io')) {
             console.warn('[Mock] Blocked: mock server cannot run outside localhost.');
             return;
         }
