@@ -164,7 +164,7 @@ var Utils = (function () {
         var div = createElement('div', { className: 'error-state' });
         div.appendChild(createElement('p', {}, [message]));
         if (onRetry) {
-            div.appendChild(createElement('button', { className: 'btn btn--outline btn--sm', onClick: onRetry }, ['Reessayer']));
+            div.appendChild(createElement('button', { className: 'btn btn--outline btn--sm', onClick: onRetry }, ['Réessayer']));
         }
         return div;
     }

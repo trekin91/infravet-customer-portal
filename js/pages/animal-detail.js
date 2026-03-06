@@ -113,7 +113,7 @@ var AnimalDetailPage = (function () {
             { label: 'Age', value: a.age || Utils.calculateAge(a.birth_date) },
             { label: 'Poids', value: a.current_weight_kg ? a.current_weight_kg + ' kg' : 'Non renseigne' },
             { label: 'Puce electronique', value: a.identification_number || 'Non renseigne' },
-            { label: 'Sterilise(e)', value: a.neutered_status || 'Non renseigne' }
+            { label: 'Stérilisé(e)', value: a.neutered_status || 'Non renseigné' }
         ];
         var card = Utils.createElement('div', { className: 'card' });
         var dl = Utils.createElement('dl', { className: 'info-list' });

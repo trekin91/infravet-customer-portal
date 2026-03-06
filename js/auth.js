@@ -130,7 +130,7 @@ var Auth = (function () {
         var phone = phoneInput.value.trim();
 
         if (!Utils.isValidFrenchPhone(phone)) {
-            Utils.showToast('Numero de telephone invalide', 'error');
+            Utils.showToast('Numéro de téléphone invalide', 'error');
             phoneInput.classList.add('input--error');
             return;
         }
@@ -148,7 +148,7 @@ var Auth = (function () {
             })
             .catch(function (err) {
                 if (err.status === 404) {
-                    Utils.showToast('Aucun compte client trouve pour ce numero.', 'error');
+                    Utils.showToast('Aucun compte client trouvé pour ce numéro.', 'error');
                 } else {
                     Utils.showToast(err.message || "Erreur lors de l'envoi du code", 'error');
                 }
@@ -163,7 +163,7 @@ var Auth = (function () {
         var code = _getOtpValue();
         if (code.length !== InfravetConfig.OTP_LENGTH) return;
         if (_otpLocked) {
-            Utils.showToast('Trop de tentatives. Patientez avant de reessayer.', 'warning');
+            Utils.showToast('Trop de tentatives. Patientez avant de réessayer.', 'warning');
             return;
         }
 
@@ -184,16 +184,16 @@ var Auth = (function () {
                     if (_otpFailCount >= 5) {
                         _otpLocked = true;
                         var lockDuration = Math.min(_otpFailCount * 10, 60);
-                        Utils.showToast('Trop de tentatives. Reessayez dans ' + lockDuration + 's.', 'error');
+                        Utils.showToast('Trop de tentatives. Réessayez dans ' + lockDuration + 's.', 'error');
                         setTimeout(function () { _otpLocked = false; }, lockDuration * 1000);
                     } else {
-                        Utils.showToast('Code incorrect. Veuillez reessayer.', 'error');
+                        Utils.showToast('Code incorrect. Veuillez réessayer.', 'error');
                     }
                     Utils.$$('.otp-input').forEach(function (i) { i.value = ''; });
                     var first = Utils.$('.otp-input[data-index="0"]');
                     if (first) first.focus();
                 } else {
-                    Utils.showToast(err.message || 'Erreur de verification', 'error');
+                    Utils.showToast(err.message || 'Erreur de vérification', 'error');
                 }
             })
             .finally(function () {
@@ -204,7 +204,7 @@ var Auth = (function () {
     function _handleResendOtp() {
         API.auth.sendOtp(_phoneNumber)
             .then(function () {
-                Utils.showToast('Code renvoye', 'success');
+                Utils.showToast('Code renvoyé', 'success');
                 _startResendTimer();
             })
             .catch(function () {
@@ -213,7 +213,7 @@ var Auth = (function () {
     }
 
     function logout() {
-        if (!confirm('Voulez-vous vraiment vous deconnecter ?')) return;
+        if (!confirm('Voulez-vous vraiment vous déconnecter ?')) return;
         if (_resendTimer) { clearInterval(_resendTimer); _resendTimer = null; }
         API.auth.logout()
             .catch(function () {})
@@ -236,7 +236,7 @@ var Auth = (function () {
             var currentPage = typeof Router !== 'undefined' ? Router.getCurrentPage() : '';
             if (currentPage) sessionStorage.setItem('infravet_session_page', currentPage);
         } catch (e) {}
-        Utils.showToast('Votre session a expire. Veuillez vous reconnecter.', 'warning');
+        Utils.showToast('Votre session a expiré. Veuillez vous reconnecter.', 'warning');
         showLoginScreen();
         if (typeof App !== 'undefined' && App.onLogout) {
             App.onLogout();

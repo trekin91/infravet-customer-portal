@@ -54,14 +54,20 @@ var DashboardPage = (function () {
         var count = hospitalizations.length;
         var banner = Utils.createElement('div', {
             className: 'hospit-banner card card--clickable',
+            tabindex: '0',
+            role: 'button',
+            'aria-label': 'Voir les hospitalisations en cours',
             onClick: function () { Router.navigate('hospitalization'); }
+        });
+        banner.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); Router.navigate('hospitalization'); }
         });
         var icon = Utils.createElement('div', { className: 'hospit-banner__icon' }, ['\uD83C\uDFE5']);
         banner.appendChild(icon);
         var content = Utils.createElement('div', { className: 'hospit-banner__content' });
         var title = count === 1
-            ? '1 animal hospitalise'
-            : count + ' animaux hospitalises';
+            ? '1 animal hospitalisé'
+            : count + ' animaux hospitalisés';
         content.appendChild(Utils.createElement('div', { className: 'hospit-banner__title' }, [title]));
         if (count === 1) {
             var h = hospitalizations[0];

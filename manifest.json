@@ -1,7 +1,7 @@
 {
     "name": "Infravet - Espace Client",
     "short_name": "Infravet",
-    "description": "Suivez la sante de vos animaux, vos rendez-vous et documents veterinaires",
+    "description": "Suivez la santé de vos animaux, vos rendez-vous et documents vétérinaires",
     "start_url": "index.html",
     "scope": ".",
     "display": "standalone",

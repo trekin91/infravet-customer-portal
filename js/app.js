@@ -131,10 +131,27 @@ var App = (function () {
         if (splash) splash.hidden = true;
     }
 
+    function _applyConfigBranding() {
+        if (InfravetConfig.CLINIC_NAME) {
+            var name = InfravetConfig.CLINIC_NAME;
+            document.title = name;
+            var splashEl = Utils.$('#splash-clinic-name');
+            var authEl = Utils.$('#auth-clinic-name');
+            if (splashEl) splashEl.textContent = name;
+            if (authEl) authEl.textContent = name;
+        }
+        if (InfravetConfig.THEME_COLOR) {
+            var meta = Utils.$('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', InfravetConfig.THEME_COLOR);
+        }
+    }
+
     function init() {
         if (InfravetConfig.FEATURES.MOCK_API && typeof MockServer !== 'undefined') {
             MockServer.init();
         }
+
+        _applyConfigBranding();
 
         Auth.init();
         Router.init();

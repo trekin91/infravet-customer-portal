@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#1B3A4B">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="description" content="Suivez la sante de vos animaux, vos rendez-vous et documents veterinaires">
+    <meta name="description" content="Suivez la santé de vos animaux, vos rendez-vous et documents vétérinaires">
     <!-- PROD: remplacer connect-src par le domaine API reel, retirer ws://localhost, unsafe-inline et https://picsum.photos -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://picsum.photos https://fastly.picsum.photos; font-src 'self'; connect-src 'self' ws://localhost:* ws://127.0.0.1:*; form-action 'self'; base-uri 'self';">
     <title>Infravet</title>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="splash-footer">
-            <span>Propulse par</span>
+            <span>Propulsé par</span>
             <img src="assets/logo/infravet V1 transparent long.png" alt="Infravet" class="powered-by-logo">
         </div>
     </div>
@@ -59,7 +59,7 @@
             <!-- Step 1: Phone -->
             <div id="auth-phone-step" class="auth-form-card">
                 <h1 class="auth-title">Bienvenue</h1>
-                <p class="auth-subtitle">Entrez votre numero de telephone pour acceder a votre espace</p>
+                <p class="auth-subtitle">Entrez votre numéro de téléphone pour accéder à votre espace</p>
                 <form id="phone-form" autocomplete="off">
                     <div class="input-group">
                         <input
@@ -69,7 +69,7 @@
                             placeholder="06 12 34 56 78"
                             inputmode="tel"
                             autocomplete="tel"
-                            aria-label="Numero de telephone"
+                            aria-label="Numéro de téléphone"
                             required
                         >
                     </div>
@@ -81,9 +81,9 @@
 
             <!-- Step 2: OTP -->
             <div id="auth-otp-step" class="auth-form-card" hidden>
-                <h1 class="auth-title">Verification</h1>
+                <h1 class="auth-title">Vérification</h1>
                 <div class="otp-phone-info">
-                    <p>Code envoye au <span id="otp-phone-display"></span></p>
+                    <p>Code envoyé au <span id="otp-phone-display"></span></p>
                 </div>
                 <div class="otp-container">
                     <input type="text" class="otp-input" data-index="0" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Chiffre 1">
@@ -95,13 +95,13 @@
                 </div>
                 <div class="otp-actions">
                     <button type="button" id="otp-resend-btn" disabled>Renvoyer le code</button>
-                    <button type="button" id="otp-back-btn">Modifier le numero</button>
+                    <button type="button" id="otp-back-btn">Modifier le numéro</button>
                 </div>
             </div>
 
         </div>
         <div class="auth-footer">
-            <span>Propulse par</span>
+            <span>Propulsé par</span>
             <img src="assets/logo/infravet V1 transparent long.png" alt="Infravet" class="powered-by-logo">
         </div>
     </div>
@@ -116,10 +116,10 @@
                 <span id="header-clinic-name" class="header-clinic-name">Espace client</span>
             </div>
             <div class="header-actions">
-                <button id="refresh-btn" class="btn-refresh" aria-label="Rafraichir">
+                <button id="refresh-btn" class="btn-refresh" aria-label="Rafraîchir">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M21 4v4h-4"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path><path d="M3 20v-4h4"></path></svg>
                 </button>
-                <button id="logout-header-btn" class="btn-header-action" aria-label="Se deconnecter">
+                <button id="logout-header-btn" class="btn-header-action" aria-label="Se déconnecter">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                         <path d="M16 17l5-5-5-5"></path>
@@ -253,8 +253,28 @@
     </div>
 
     <!-- Scripts -->
-    <!-- PROD: supprimer la ligne mock-server.js ci-dessous -->
+    <!--
+        PRODUCTION — environment.js :
+        Laravel sert ce fichier dynamiquement avec la config clinique :
+            window.INFRAVET_CONFIG = {
+                CLINIC_NAME: "...",
+                CLINIC_DESCRIPTION: "...",
+                THEME_COLOR: "#1B3A4B",
+                BACKGROUND_COLOR: "#F5F7FA",
+                API_BASE_URL: "/api",
+                VAPID_PUBLIC_KEY: "...",
+                APP_VERSION: "...",
+                APP_COMMIT: "..."
+            };
+
+        PRODUCTION — sécurité :
+        - Supprimer la ligne <script src="mocks/mock-server.js">
+        - CSP : retirer ws://localhost:* ws://127.0.0.1:* de connect-src
+        - CSP : retirer https://picsum.photos https://fastly.picsum.photos de img-src
+        - CSP : si API cross-origin, ajouter le domaine à connect-src
+    -->
     <script src="mocks/mock-server.js"></script>
+    <script src="environment.js"></script>
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/api.js"></script>

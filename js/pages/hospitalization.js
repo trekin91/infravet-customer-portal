@@ -66,7 +66,16 @@ var HospitalizationPage = (function () {
     }
 
     function _renderHospitCard(h, isHistory) {
-        var card = Utils.createElement('article', { className: 'hospit-card card', onClick: function () { _showDetail(h.id); } });
+        var card = Utils.createElement('article', {
+            className: 'hospit-card card card--clickable',
+            role: 'button',
+            tabindex: '0',
+            'aria-label': h.animal_name + ', ' + h.animal_species,
+            onClick: function () { _showDetail(h.id); }
+        });
+        card.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); _showDetail(h.id); }
+        });
 
         var left = Utils.createElement('div', { className: 'hospit-card__emoji' }, [_speciesEmoji(h.animal_species)]);
         card.appendChild(left);
@@ -82,7 +91,7 @@ var HospitalizationPage = (function () {
         if (isHistory && h.discharge_date) {
             center.appendChild(Utils.createElement('div', { className: 'hospit-card__date' }, ['Sorti le ' + Utils.formatDate(h.discharge_date)]));
         } else if (h.last_update) {
-            center.appendChild(Utils.createElement('div', { className: 'hospit-card__date' }, ['Mis a jour ' + Utils.formatDateTime(h.last_update)]));
+            center.appendChild(Utils.createElement('div', { className: 'hospit-card__date' }, ['Mis à jour ' + Utils.formatDateTime(h.last_update)]));
         }
         card.appendChild(center);
 
@@ -211,7 +220,7 @@ var HospitalizationPage = (function () {
 
         var infoCard = Utils.createElement('div', { className: 'card hospit-detail-info' });
         var dl = Utils.createElement('dl', { className: 'info-list' });
-        dl.appendChild(Utils.createElement('dt', {}, ['Veterinaire']));
+        dl.appendChild(Utils.createElement('dt', {}, ['Vétérinaire']));
         dl.appendChild(Utils.createElement('dd', {}, [Utils.escapeHtml(h.veterinarian)]));
         dl.appendChild(Utils.createElement('dt', {}, ['Date d\'admission']));
         dl.appendChild(Utils.createElement('dd', {}, [Utils.formatDateTime(h.admission_date)]));
@@ -238,7 +247,16 @@ var HospitalizationPage = (function () {
             photosCard.appendChild(Utils.createElement('h2', { className: 'hospit-section-title' }, ['Photos']));
             var grid = Utils.createElement('div', { className: 'hospit-photo-grid' });
             h.photos.forEach(function (photo) {
-                var thumb = Utils.createElement('div', { className: 'hospit-photo-thumb', onClick: function () { _openPhotoModal(photo.url, photo.caption); } });
+                var thumb = Utils.createElement('div', {
+                    className: 'hospit-photo-thumb',
+                    tabindex: '0',
+                    role: 'button',
+                    'aria-label': 'Voir la photo' + (photo.caption ? ' : ' + photo.caption : ''),
+                    onClick: function () { _openPhotoModal(photo.url, photo.caption); }
+                });
+                thumb.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); _openPhotoModal(photo.url, photo.caption); }
+                });
                 var img = Utils.createElement('img', { src: photo.url, alt: Utils.escapeHtml(photo.caption || ''), loading: 'lazy' });
                 thumb.appendChild(img);
                 if (photo.caption) {
@@ -283,7 +301,16 @@ var HospitalizationPage = (function () {
         var existing = Utils.$('.hospit-photo-modal');
         if (existing) existing.remove();
 
-        var overlay = Utils.createElement('div', { className: 'hospit-photo-modal', onClick: function (e) { if (e.target === overlay) _closePhotoModal(); } });
+        var overlay = Utils.createElement('div', {
+            className: 'hospit-photo-modal',
+            role: 'dialog',
+            'aria-modal': 'true',
+            'aria-label': caption ? Utils.escapeHtml(caption) : 'Photo',
+            onClick: function (e) { if (e.target === overlay) _closePhotoModal(); }
+        });
+        function _escHandler(e) { if (e.key === 'Escape') _closePhotoModal(); }
+        document.addEventListener('keydown', _escHandler);
+        overlay._escHandler = _escHandler;
         var closeBtn = Utils.createElement('button', {
             className: 'hospit-photo-modal__close',
             'aria-label': 'Fermer',
@@ -296,11 +323,15 @@ var HospitalizationPage = (function () {
             overlay.appendChild(Utils.createElement('div', { className: 'hospit-photo-modal__caption' }, [Utils.escapeHtml(caption)]));
         }
         document.body.appendChild(overlay);
+        closeBtn.focus();
     }
 
     function _closePhotoModal() {
         var modal = Utils.$('.hospit-photo-modal');
-        if (modal) modal.remove();
+        if (modal) {
+            if (modal._escHandler) document.removeEventListener('keydown', modal._escHandler);
+            modal.remove();
+        }
     }
 
     function _showListView() {

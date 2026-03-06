@@ -6,10 +6,10 @@ var AppointmentsPage = (function () {
 
     function _statusBadge(status) {
         var map = {
-            confirmed: { cls: 'badge--success', text: 'Confirme' },
+            confirmed: { cls: 'badge--success', text: 'Confirmé' },
             pending: { cls: 'badge--warning', text: 'En attente' },
-            completed: { cls: 'badge--info', text: 'Termine' },
-            cancelled: { cls: 'badge--error', text: 'Annule' }
+            completed: { cls: 'badge--info', text: 'Terminé' },
+            cancelled: { cls: 'badge--error', text: 'Annulé' }
         };
         var s = map[status] || { cls: 'badge--info', text: status };
         return Utils.createElement('span', { className: 'badge ' + s.cls + ' appt-status' }, [s.text]);
@@ -55,33 +55,47 @@ var AppointmentsPage = (function () {
     }
 
     function _confirmCancel(appt) {
-        var overlay = Utils.createElement('div', { className: 'confirm-overlay', onClick: function (e) { if (e.target === overlay) overlay.remove(); } });
+        var overlay = Utils.createElement('div', {
+            className: 'confirm-overlay',
+            role: 'alertdialog',
+            'aria-modal': 'true',
+            'aria-label': 'Annuler ce rendez-vous ?',
+            onClick: function (e) { if (e.target === overlay) _removeOverlay(); }
+        });
+        function _removeOverlay() {
+            document.removeEventListener('keydown', _escHandler);
+            overlay.remove();
+        }
+        function _escHandler(e) { if (e.key === 'Escape') _removeOverlay(); }
+        document.addEventListener('keydown', _escHandler);
         var dialog = Utils.createElement('div', { className: 'confirm-dialog card' });
         dialog.appendChild(Utils.createElement('h3', { className: 'confirm-title' }, ['Annuler ce rendez-vous ?']));
         dialog.appendChild(Utils.createElement('p', { className: 'confirm-text' }, [
             Utils.escapeHtml(appt.animal_name) + ' \u2014 ' + Utils.escapeHtml(appt.type) + '\n' + Utils.formatRelativeDate(appt.date_time) + ' \u00e0 ' + Utils.formatTime(appt.date_time)
         ]));
         var actions = Utils.createElement('div', { className: 'confirm-actions' });
-        actions.appendChild(Utils.createElement('button', {
+        var keepBtn = Utils.createElement('button', {
             className: 'btn btn--outline',
-            onClick: function () { overlay.remove(); }
-        }, ['Non, garder']));
+            onClick: function () { _removeOverlay(); }
+        }, ['Non, garder']);
+        actions.appendChild(keepBtn);
         actions.appendChild(Utils.createElement('button', {
             className: 'btn btn--danger',
             onClick: function () {
-                overlay.remove();
+                _removeOverlay();
                 _cancelAppointment(appt.id);
             }
         }, ['Oui, annuler']));
         dialog.appendChild(actions);
         overlay.appendChild(dialog);
         document.body.appendChild(overlay);
+        keepBtn.focus();
     }
 
     function _cancelAppointment(id) {
         API.appointments.cancel(id)
             .then(function () {
-                Utils.showToast('Rendez-vous annule', 'success');
+                Utils.showToast('Rendez-vous annulé', 'success');
                 _loadAppointments();
             })
             .catch(function () {
@@ -94,11 +108,11 @@ var AppointmentsPage = (function () {
         var upcoming = Utils.createElement('button', {
             className: 'segment-btn' + (_currentFilter === 'upcoming' ? ' active' : ''),
             onClick: function () { _switchFilter('upcoming'); }
-        }, ['A venir']);
+        }, ['À venir']);
         var past = Utils.createElement('button', {
             className: 'segment-btn' + (_currentFilter === 'past' ? ' active' : ''),
             onClick: function () { _switchFilter('past'); }
-        }, ['Passes']);
+        }, ['Passés']);
         control.appendChild(upcoming);
         control.appendChild(past);
         return control;
@@ -136,7 +150,7 @@ var AppointmentsPage = (function () {
                 if (!data) data = [];
                 Utils.clearElement(listEl);
                 if (!Array.isArray(data) || data.length === 0) {
-                    var msg = _currentFilter === 'upcoming' ? 'Aucun rendez-vous a venir' : 'Aucun rendez-vous passe';
+                    var msg = _currentFilter === 'upcoming' ? 'Aucun rendez-vous à venir' : 'Aucun rendez-vous passé';
                     Utils.clearElement(listEl);
                     listEl.appendChild(Utils.createEmptyState('\uD83D\uDCC5', msg, _currentFilter === 'upcoming' ? 'Contactez votre clinique pour prendre rendez-vous' : null));
                     return;

@@ -6,9 +6,15 @@ var InfravetConfig = (function () {
         || window.location.hostname.endsWith('.github.io');
 
     var config = {
+        CLINIC_NAME: '',
+        CLINIC_DESCRIPTION: '',
+        THEME_COLOR: '#1B3A4B',
+        BACKGROUND_COLOR: '#F5F7FA',
+
         API_BASE_URL: '/api/customer-portal',
 
         APP_VERSION: '0.0.1',
+        APP_COMMIT: '',
 
         OTP_LENGTH: 6,
         OTP_RESEND_DELAY_SECONDS: 60,

@@ -72,10 +72,10 @@ var InstallPrompt = (function () {
             instructions.appendChild(shareSvg);
             instructions.appendChild(document.createTextNode(' puis '));
             var strong = document.createElement('strong');
-            strong.textContent = 'Sur l\'ecran d\'accueil';
+            strong.textContent = 'Sur l\'écran d\'accueil';
             instructions.appendChild(strong);
         } else {
-            instructions.textContent = 'Accedez a votre espace veterinaire directement depuis votre ecran d\'accueil';
+            instructions.textContent = 'Accédez à votre espace vétérinaire directement depuis votre écran d\'accueil';
         }
         textWrap.appendChild(instructions);
         content.appendChild(textWrap);

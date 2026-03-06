@@ -10,10 +10,10 @@ var ProfilePage = (function () {
         var card = Utils.createElement('div', { className: 'profile-card card' });
         var rows = [
             { label: 'Nom', value: client.last_name },
-            { label: 'Prenom', value: client.first_name },
-            { label: 'Telephone', value: Utils.formatPhoneDisplay(client.phone) },
-            { label: 'Email', value: client.email || 'Non renseigne' },
-            { label: 'Adresse', value: client.address ? (client.address + ', ' + client.postal_code + ' ' + client.city) : 'Non renseignee' }
+            { label: 'Prénom', value: client.first_name },
+            { label: 'Téléphone', value: Utils.formatPhoneDisplay(client.phone) },
+            { label: 'Email', value: client.email || 'Non renseigné' },
+            { label: 'Adresse', value: client.address ? (client.address + ', ' + client.postal_code + ' ' + client.city) : 'Non renseignée' }
         ];
 
         rows.forEach(function (r) {
@@ -61,7 +61,7 @@ var ProfilePage = (function () {
         var permState = Notifications.getPermissionState();
         if (permState === 'unsupported') {
             card.appendChild(Utils.createElement('p', { className: 'profile-notif-info' }, [
-                'Les notifications push ne sont pas supportees sur cet appareil.'
+                'Les notifications push ne sont pas supportées sur cet appareil.'
             ]));
             section.appendChild(card);
             return section;
@@ -80,12 +80,12 @@ var ProfilePage = (function () {
                         checkbox.checked = false;
                         Utils.showToast('Impossible d\'activer les notifications', 'warning');
                     } else {
-                        Utils.showToast('Notifications activees', 'success');
+                        Utils.showToast('Notifications activées', 'success');
                     }
                 });
             } else {
                 Notifications.unsubscribe().then(function () {
-                    Utils.showToast('Notifications desactivees', 'info');
+                    Utils.showToast('Notifications désactivées', 'info');
                 });
             }
         });
@@ -96,7 +96,7 @@ var ProfilePage = (function () {
 
         if (permState === 'denied') {
             card.appendChild(Utils.createElement('p', { className: 'profile-notif-info' }, [
-                'Les notifications sont bloquees. Modifiez les parametres de votre navigateur pour les autoriser.'
+                'Les notifications sont bloquées. Modifiez les paramètres de votre navigateur pour les autoriser.'
             ]));
         }
 
@@ -124,9 +124,9 @@ var ProfilePage = (function () {
             id: 'logout-btn',
             className: 'btn btn--outline btn--full',
             onClick: function () { Auth.logout(); }
-        }, ['Se deconnecter']));
+        }, ['Se déconnecter']));
         var poweredBy = Utils.createElement('div', { className: 'profile-powered-by' });
-        poweredBy.appendChild(document.createTextNode('Propulse par '));
+        poweredBy.appendChild(document.createTextNode('Propulsé par '));
         var logo = Utils.createElement('img', {
             src: 'assets/logo/infravet V1 transparent long.png',
             alt: 'Infravet',

@@ -358,8 +358,8 @@
 }
 
 .btn-header-action {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -431,9 +431,27 @@
     }
 }
 
+.segment-btn:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.segment-btn:active {
+    opacity: 0.7;
+}
+
+.sub-tab:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.sub-tab:active {
+    opacity: 0.7;
+}
+
 .btn-refresh {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;

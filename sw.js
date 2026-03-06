@@ -1,4 +1,4 @@
-var CACHE_NAME = 'infravet-shell-v5';
+var CACHE_NAME = 'infravet-shell-v6';
 var SHELL_FILES = [
     './',
     './index.html',
@@ -30,8 +30,7 @@ var SHELL_FILES = [
     './js/pages/documents.js',
     './js/pages/profile.js',
     './js/pull-to-refresh.js',
-    './js/app.js',
-    './manifest.json'
+    './js/app.js'
 ];
 
 self.addEventListener('install', function (event) {
@@ -70,6 +69,10 @@ self.addEventListener('fetch', function (event) {
     }
 
     if (url.pathname.startsWith('/mocks/')) {
+        return;
+    }
+
+    if (url.pathname.endsWith('/manifest.json') || url.pathname.endsWith('/environment.js')) {
         return;
     }
 
