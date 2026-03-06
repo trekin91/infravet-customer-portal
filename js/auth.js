@@ -12,6 +12,10 @@ var Auth = (function () {
     }
 
     function checkSession() {
+        if (!API.token.exists()) {
+            _clientData = null;
+            return Promise.resolve(false);
+        }
         return API.auth.me()
             .then(function (data) {
                 _clientData = data;
@@ -19,6 +23,7 @@ var Auth = (function () {
             })
             .catch(function () {
                 _clientData = null;
+                API.token.clear();
                 return false;
             });
     }
@@ -214,6 +219,7 @@ var Auth = (function () {
             .catch(function () {})
             .finally(function () {
                 _clientData = null;
+                API.token.clear();
                 try { sessionStorage.clear(); } catch (e) {}
                 showLoginScreen();
                 if (typeof App !== 'undefined' && App.onLogout) {
@@ -225,6 +231,7 @@ var Auth = (function () {
     function _forceLogout() {
         if (_resendTimer) { clearInterval(_resendTimer); _resendTimer = null; }
         _clientData = null;
+        API.token.clear();
         try {
             var currentPage = typeof Router !== 'undefined' ? Router.getCurrentPage() : '';
             if (currentPage) sessionStorage.setItem('infravet_session_page', currentPage);

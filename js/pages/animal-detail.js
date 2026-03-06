@@ -39,7 +39,7 @@ var AnimalDetailPage = (function () {
         info.appendChild(Utils.createElement('p', {}, [
             Utils.escapeHtml(animal.species) + ' \u2014 ' + Utils.escapeHtml(animal.breed)
         ]));
-        info.appendChild(Utils.createElement('p', {}, [Utils.calculateAge(animal.birthDate)]));
+        info.appendChild(Utils.createElement('p', {}, [Utils.calculateAge(animal.birth_date)]));
         hero.appendChild(info);
         return hero;
     }
@@ -81,22 +81,22 @@ var AnimalDetailPage = (function () {
                 break;
             case 'poids':
                 API.animals.getWeights(_currentAnimalId)
-                    .then(function (data) { if (!_stale()) _renderWeights(area, (data && data.weights) || []); })
+                    .then(function (data) { if (!_stale()) _renderWeights(area, Array.isArray(data) ? data : []); })
                     .catch(function () { if (!_stale()) { Utils.clearElement(area); area.appendChild(Utils.createErrorState('Erreur de chargement')); } });
                 break;
             case 'consultations':
                 API.animals.getConsultations(_currentAnimalId)
-                    .then(function (data) { if (!_stale()) _renderConsultations(area, (data && data.consultations) || []); })
+                    .then(function (data) { if (!_stale()) _renderConsultations(area, Array.isArray(data) ? data : []); })
                     .catch(function () { if (!_stale()) { Utils.clearElement(area); area.appendChild(Utils.createErrorState('Erreur de chargement')); } });
                 break;
             case 'vaccinations':
                 API.animals.getVaccinations(_currentAnimalId)
-                    .then(function (data) { if (!_stale()) _renderVaccinations(area, (data && data.vaccinations) || []); })
+                    .then(function (data) { if (!_stale()) _renderVaccinations(area, Array.isArray(data) ? data : []); })
                     .catch(function () { if (!_stale()) { Utils.clearElement(area); area.appendChild(Utils.createErrorState('Erreur de chargement')); } });
                 break;
             case 'treatments':
                 API.animals.getTreatments(_currentAnimalId)
-                    .then(function (data) { if (!_stale()) _renderTreatments(area, (data && data.treatments) || []); })
+                    .then(function (data) { if (!_stale()) _renderTreatments(area, Array.isArray(data) ? data : []); })
                     .catch(function () { if (!_stale()) { Utils.clearElement(area); area.appendChild(Utils.createErrorState('Erreur de chargement')); } });
                 break;
         }
@@ -109,12 +109,11 @@ var AnimalDetailPage = (function () {
             { label: 'Espece', value: a.species },
             { label: 'Race', value: a.breed },
             { label: 'Sexe', value: a.sex === 'M' ? 'Male' : 'Femelle' },
-            { label: 'Date de naissance', value: Utils.formatDate(a.birthDate) },
-            { label: 'Age', value: Utils.calculateAge(a.birthDate) },
-            { label: 'Poids', value: a.weight ? a.weight + ' kg' : 'Non renseigne' },
-            { label: 'Couleur / Robe', value: a.color || 'Non renseigne' },
-            { label: 'Puce electronique', value: a.microchipNumber || 'Non renseigne' },
-            { label: 'Sterilise(e)', value: a.sterilized ? 'Oui' : 'Non' }
+            { label: 'Date de naissance', value: Utils.formatDate(a.birth_date) },
+            { label: 'Age', value: a.age || Utils.calculateAge(a.birth_date) },
+            { label: 'Poids', value: a.current_weight_kg ? a.current_weight_kg + ' kg' : 'Non renseigne' },
+            { label: 'Puce electronique', value: a.identification_number || 'Non renseigne' },
+            { label: 'Sterilise(e)', value: a.neutered_status || 'Non renseigne' }
         ];
         var card = Utils.createElement('div', { className: 'card' });
         var dl = Utils.createElement('dl', { className: 'info-list' });
@@ -296,7 +295,7 @@ var AnimalDetailPage = (function () {
             info.appendChild(Utils.createElement('div', { className: 'vacc-card__details' }, [
                 Utils.formatDate(v.date) + ' \u2022 ' + Utils.escapeHtml(v.veterinarian)
             ]));
-            var nextText = 'Prochain rappel : ' + Utils.formatDate(v.nextDueDate);
+            var nextText = 'Prochain rappel : ' + Utils.formatDate(v.next_due_date);
             var nextClass = 'vacc-card__next' + (isOverdue ? ' text-error' : ' text-success');
             info.appendChild(Utils.createElement('div', { className: nextClass }, [nextText]));
             card.appendChild(info);
@@ -328,7 +327,7 @@ var AnimalDetailPage = (function () {
             card.appendChild(header);
 
             card.appendChild(Utils.createElement('div', { className: 'treat-card__detail' }, [
-                'Prescrit le ' + Utils.formatDate(t.prescribedDate) + ' par ' + Utils.escapeHtml(t.veterinarian)
+                'Prescrit le ' + Utils.formatDate(t.prescribed_date) + ' par ' + Utils.escapeHtml(t.veterinarian)
             ]));
             card.appendChild(Utils.createElement('div', { className: 'treat-card__detail' }, [
                 'Duree : ' + Utils.escapeHtml(t.duration) + ' \u2022 ' + Utils.escapeHtml(t.dosage)
@@ -386,8 +385,8 @@ var AnimalDetailPage = (function () {
 
         return API.animals.get(_currentAnimalId)
             .then(function (data) {
-                if (!data || !data.animal) throw new Error('Donnees invalides');
-                _animalData = data.animal;
+                if (!data) throw new Error('Donnees invalides');
+                _animalData = data;
                 Utils.clearElement(_container);
                 _container.appendChild(_renderHeader(_animalData));
                 _container.appendChild(_renderHero(_animalData));

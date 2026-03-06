@@ -8,7 +8,7 @@ var InfravetConfig = (function () {
     var config = {
         API_BASE_URL: '/api/customer-portal',
 
-        APP_VERSION: '1.0.0',
+        APP_VERSION: '0.0.1',
 
         OTP_LENGTH: 6,
         OTP_RESEND_DELAY_SECONDS: 60,

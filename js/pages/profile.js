@@ -9,11 +9,11 @@ var ProfilePage = (function () {
 
         var card = Utils.createElement('div', { className: 'profile-card card' });
         var rows = [
-            { label: 'Nom', value: client.lastName },
-            { label: 'Prenom', value: client.firstName },
+            { label: 'Nom', value: client.last_name },
+            { label: 'Prenom', value: client.first_name },
             { label: 'Telephone', value: Utils.formatPhoneDisplay(client.phone) },
             { label: 'Email', value: client.email || 'Non renseigne' },
-            { label: 'Adresse', value: client.address ? (client.address.street + ', ' + client.address.zipCode + ' ' + client.address.city) : 'Non renseignee' }
+            { label: 'Adresse', value: client.address ? (client.address + ', ' + client.postal_code + ' ' + client.city) : 'Non renseignee' }
         ];
 
         rows.forEach(function (r) {
@@ -46,7 +46,7 @@ var ProfilePage = (function () {
 
         var hours = Utils.createElement('div', { className: 'clinic-detail' });
         hours.appendChild(Utils.createSvg([{tag: 'circle', cx: '12', cy: '12', r: '10'}, {tag: 'polyline', points: '12 6 12 12 16 14'}]));
-        hours.appendChild(document.createTextNode(Utils.escapeHtml(clinic.openingHours)));
+        hours.appendChild(document.createTextNode(Utils.escapeHtml(clinic.opening_hours)));
         card.appendChild(hours);
 
         section.appendChild(card);
@@ -109,9 +109,13 @@ var ProfilePage = (function () {
 
         _container.appendChild(_renderProfileInfo(client));
 
-        if (client.clinic) {
-            _container.appendChild(_renderClinicInfo(client.clinic));
-        }
+        var clinicPlaceholder = Utils.createElement('div', { id: 'clinic-section-placeholder' });
+        _container.appendChild(clinicPlaceholder);
+        API.clinic.getInfo()
+            .then(function (clinic) {
+                if (clinic) clinicPlaceholder.appendChild(_renderClinicInfo(clinic));
+            })
+            .catch(function () {});
 
         _container.appendChild(_renderNotificationSettings());
 

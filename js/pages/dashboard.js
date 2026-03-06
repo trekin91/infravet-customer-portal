@@ -11,7 +11,7 @@ var DashboardPage = (function () {
     function _renderNextAppointment(appt) {
         var card = Utils.createElement('div', { className: 'next-appt-card' });
         card.appendChild(Utils.createElement('div', { className: 'appt-label' }, ['Prochain rendez-vous']));
-        card.appendChild(Utils.createElement('div', { className: 'appt-animal' }, [Utils.escapeHtml(appt.animalName) + ' \u2014 ' + Utils.escapeHtml(appt.type)]));
+        card.appendChild(Utils.createElement('div', { className: 'appt-animal' }, [Utils.escapeHtml(appt.animal_name) + ' \u2014 ' + Utils.escapeHtml(appt.type)]));
         card.appendChild(Utils.createElement('div', { className: 'appt-reason' }, [Utils.escapeHtml(appt.reason)]));
 
         var dateRow = Utils.createElement('div', { className: 'appt-date' });
@@ -21,7 +21,7 @@ var DashboardPage = (function () {
             { tag: 'line', x1: '8', y1: '2', x2: '8', y2: '6' },
             { tag: 'line', x1: '3', y1: '10', x2: '21', y2: '10' }
         ], '0 0 24 24'));
-        dateRow.appendChild(document.createTextNode(Utils.formatRelativeDate(appt.dateTime) + ' \u00e0 ' + Utils.formatTime(appt.dateTime)));
+        dateRow.appendChild(document.createTextNode(Utils.formatRelativeDate(appt.date_time) + ' \u00e0 ' + Utils.formatTime(appt.date_time)));
         card.appendChild(dateRow);
 
         var vetRow = Utils.createElement('div', { className: 'appt-date', style: 'margin-top: var(--space-1)' });
@@ -45,7 +45,7 @@ var DashboardPage = (function () {
         var avatar = Utils.createElement('div', { className: 'animal-avatar' }, [_getSpeciesEmoji(animal.species)]);
         card.appendChild(avatar);
         card.appendChild(Utils.createElement('div', { className: 'animal-name' }, [Utils.escapeHtml(animal.name)]));
-        card.appendChild(Utils.createElement('div', { className: 'animal-species' }, [Utils.escapeHtml(animal.species) + ' \u2022 ' + Utils.calculateAge(animal.birthDate)]));
+        card.appendChild(Utils.createElement('div', { className: 'animal-species' }, [Utils.escapeHtml(animal.species) + ' \u2022 ' + Utils.calculateAge(animal.birth_date)]));
 
         return card;
     }
@@ -73,7 +73,7 @@ var DashboardPage = (function () {
             var statusDesc = STATUS_TEXT[h.status] || '';
             if (statusDesc) {
                 content.appendChild(Utils.createElement('div', { className: 'hospit-banner__desc' }, [
-                    Utils.escapeHtml(h.animalName) + ' ' + statusDesc + '.'
+                    Utils.escapeHtml(h.animal_name) + ' ' + statusDesc + '.'
                 ]));
             }
         }
@@ -100,11 +100,11 @@ var DashboardPage = (function () {
         Utils.clearElement(_container);
 
         var greeting = Utils.createElement('div', { className: 'dashboard-greeting' });
-        greeting.appendChild(Utils.createElement('h1', { className: 'greeting-text' }, ['Bonjour, ' + Utils.escapeHtml(data.clientName || '')]));
-        greeting.appendChild(Utils.createElement('p', { className: 'greeting-sub' }, ['Bienvenue sur l\'espace ' + Utils.escapeHtml(data.clinicName || 'de votre clinique')]));
+        greeting.appendChild(Utils.createElement('h1', { className: 'greeting-text' }, ['Bonjour, ' + Utils.escapeHtml(data.client_name || '')]));
+        greeting.appendChild(Utils.createElement('p', { className: 'greeting-sub' }, ['Bienvenue sur l\'espace ' + Utils.escapeHtml(data.clinic_name || 'de votre clinique')]));
         _container.appendChild(greeting);
 
-        var hasContent = data.nextAppointment || (data.animals && data.animals.length > 0) || (data.notifications && data.notifications.length > 0) || (data.activeHospitalizations && data.activeHospitalizations.length > 0);
+        var hasContent = data.next_appointment || (data.animals && data.animals.length > 0) || (data.notifications && data.notifications.length > 0) || (data.active_hospitalizations && data.active_hospitalizations.length > 0);
         if (!hasContent) {
             var welcome = Utils.createElement('div', { className: 'dashboard-welcome card' });
             welcome.appendChild(Utils.createElement('div', { className: 'dashboard-welcome__icon' }, ['\uD83D\uDC4B']));
@@ -119,12 +119,12 @@ var DashboardPage = (function () {
             return;
         }
 
-        if (data.activeHospitalizations && data.activeHospitalizations.length > 0) {
-            _container.appendChild(_renderHospitBanner(data.activeHospitalizations));
+        if (data.active_hospitalizations && data.active_hospitalizations.length > 0) {
+            _container.appendChild(_renderHospitBanner(data.active_hospitalizations));
         }
 
-        if (data.nextAppointment) {
-            _container.appendChild(_renderNextAppointment(data.nextAppointment));
+        if (data.next_appointment) {
+            _container.appendChild(_renderNextAppointment(data.next_appointment));
         }
 
         if (data.animals && data.animals.length > 0) {

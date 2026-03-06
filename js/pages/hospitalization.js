@@ -68,28 +68,28 @@ var HospitalizationPage = (function () {
     function _renderHospitCard(h, isHistory) {
         var card = Utils.createElement('article', { className: 'hospit-card card', onClick: function () { _showDetail(h.id); } });
 
-        var left = Utils.createElement('div', { className: 'hospit-card__emoji' }, [_speciesEmoji(h.animalSpecies)]);
+        var left = Utils.createElement('div', { className: 'hospit-card__emoji' }, [_speciesEmoji(h.animal_species)]);
         card.appendChild(left);
 
         var center = Utils.createElement('div', { className: 'hospit-card__info' });
         center.appendChild(Utils.createElement('div', { className: 'hospit-card__animal' }, [
-            Utils.escapeHtml(h.animalName) + ' \u2014 ' + Utils.escapeHtml(h.animalSpecies)
+            Utils.escapeHtml(h.animal_name) + ' \u2014 ' + Utils.escapeHtml(h.animal_species)
         ]));
         if (h.reason) {
             center.appendChild(Utils.createElement('div', { className: 'hospit-card__reason' }, [Utils.escapeHtml(h.reason)]));
         }
         center.appendChild(Utils.createElement('div', { className: 'hospit-card__vet' }, [Utils.escapeHtml(h.veterinarian)]));
-        if (isHistory && h.dischargeDate) {
-            center.appendChild(Utils.createElement('div', { className: 'hospit-card__date' }, ['Sorti le ' + Utils.formatDate(h.dischargeDate)]));
-        } else if (h.lastUpdate) {
-            center.appendChild(Utils.createElement('div', { className: 'hospit-card__date' }, ['Mis a jour ' + Utils.formatDateTime(h.lastUpdate)]));
+        if (isHistory && h.discharge_date) {
+            center.appendChild(Utils.createElement('div', { className: 'hospit-card__date' }, ['Sorti le ' + Utils.formatDate(h.discharge_date)]));
+        } else if (h.last_update) {
+            center.appendChild(Utils.createElement('div', { className: 'hospit-card__date' }, ['Mis a jour ' + Utils.formatDateTime(h.last_update)]));
         }
         card.appendChild(center);
 
         card.appendChild(_statusBadge(h.status));
 
         if (!isHistory && h.steps && h.steps.length > 0) {
-            card.appendChild(_renderMiniProgress(h.steps, h.currentStep));
+            card.appendChild(_renderMiniProgress(h.steps, h.current_step));
         }
 
         return card;
@@ -145,9 +145,9 @@ var HospitalizationPage = (function () {
 
         return API.hospitalizations.list({ status: _currentFilter })
             .then(function (data) {
-                if (!data) data = {};
+                if (!data) data = [];
                 Utils.clearElement(listEl);
-                if (!data.hospitalizations || data.hospitalizations.length === 0) {
+                if (!Array.isArray(data) || data.length === 0) {
                     if (_currentFilter === 'active') {
                         listEl.appendChild(Utils.createEmptyState('\uD83C\uDFE5', 'Aucune hospitalisation en cours.', 'Cette page s\'activera automatiquement si l\'un de vos animaux est pris en charge par la clinique.'));
                     } else {
@@ -156,7 +156,7 @@ var HospitalizationPage = (function () {
                     return;
                 }
                 var isHistory = _currentFilter === 'history';
-                data.hospitalizations.forEach(function (h) {
+                data.forEach(function (h) {
                     listEl.appendChild(_renderHospitCard(h, isHistory));
                 });
             })
@@ -174,8 +174,8 @@ var HospitalizationPage = (function () {
 
         API.hospitalizations.get(id)
             .then(function (data) {
-                if (!data || !data.hospitalization) throw new Error('Donnees invalides');
-                _renderDetail(data.hospitalization);
+                if (!data) throw new Error('Donnees invalides');
+                _renderDetail(data);
             })
             .catch(function () {
                 Utils.clearElement(_container);
@@ -192,15 +192,15 @@ var HospitalizationPage = (function () {
             'aria-label': 'Retour',
             onClick: function () { _showListView(); }
         }, ['\u2190']));
-        header.appendChild(Utils.createElement('h1', { className: 'detail-title' }, [Utils.escapeHtml(h.animalName)]));
+        header.appendChild(Utils.createElement('h1', { className: 'detail-title' }, [Utils.escapeHtml(h.animal_name)]));
         _container.appendChild(header);
 
         var statusInfo = STATUS_MAP[h.status] || { cls: 'badge--info', text: h.status, color: '#9BA8B2' };
         var banner = Utils.createElement('div', { className: 'hospit-detail-banner', style: 'background-color:' + statusInfo.color });
-        banner.appendChild(Utils.createElement('span', { className: 'hospit-detail-banner__emoji' }, [_speciesEmoji(h.animalSpecies)]));
+        banner.appendChild(Utils.createElement('span', { className: 'hospit-detail-banner__emoji' }, [_speciesEmoji(h.animal_species)]));
         var bannerInfo = Utils.createElement('div', { className: 'hospit-detail-banner__info' });
         bannerInfo.appendChild(Utils.createElement('div', { className: 'hospit-detail-banner__name' }, [
-            Utils.escapeHtml(h.animalName) + ' \u2014 ' + Utils.escapeHtml(h.animalSpecies)
+            Utils.escapeHtml(h.animal_name) + ' \u2014 ' + Utils.escapeHtml(h.animal_species)
         ]));
         bannerInfo.appendChild(Utils.createElement('div', { className: 'hospit-detail-banner__status' }, [statusInfo.text]));
         if (h.reason) {
@@ -214,10 +214,10 @@ var HospitalizationPage = (function () {
         dl.appendChild(Utils.createElement('dt', {}, ['Veterinaire']));
         dl.appendChild(Utils.createElement('dd', {}, [Utils.escapeHtml(h.veterinarian)]));
         dl.appendChild(Utils.createElement('dt', {}, ['Date d\'admission']));
-        dl.appendChild(Utils.createElement('dd', {}, [Utils.formatDateTime(h.admissionDate)]));
-        if (h.dischargeDate) {
+        dl.appendChild(Utils.createElement('dd', {}, [Utils.formatDateTime(h.admission_date)]));
+        if (h.discharge_date) {
             dl.appendChild(Utils.createElement('dt', {}, ['Date de sortie']));
-            dl.appendChild(Utils.createElement('dd', {}, [Utils.formatDateTime(h.dischargeDate)]));
+            dl.appendChild(Utils.createElement('dd', {}, [Utils.formatDateTime(h.discharge_date)]));
         }
         if (h.notes) {
             dl.appendChild(Utils.createElement('dt', {}, ['Notes']));
@@ -229,7 +229,7 @@ var HospitalizationPage = (function () {
         if (h.steps && h.steps.length > 0) {
             var progressCard = Utils.createElement('div', { className: 'card hospit-detail-progress' });
             progressCard.appendChild(Utils.createElement('h2', { className: 'hospit-section-title' }, ['Progression']));
-            progressCard.appendChild(_renderProgressBar(h.steps, h.currentStep));
+            progressCard.appendChild(_renderProgressBar(h.steps, h.current_step));
             _container.appendChild(progressCard);
         }
 

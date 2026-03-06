@@ -25,7 +25,7 @@ var AnimalsPage = (function () {
         info.appendChild(Utils.createElement('p', { className: 'animal-card__breed' }, [
             Utils.escapeHtml(animal.species) + ' \u2014 ' + Utils.escapeHtml(animal.breed)
         ]));
-        info.appendChild(Utils.createElement('p', { className: 'animal-card__age' }, [Utils.calculateAge(animal.birthDate)]));
+        info.appendChild(Utils.createElement('p', { className: 'animal-card__age' }, [Utils.calculateAge(animal.birth_date)]));
         card.appendChild(info);
 
         card.appendChild(Utils.createElement('span', { className: 'animal-card__chevron', 'aria-hidden': 'true' }, ['\u203A']));
@@ -66,14 +66,14 @@ var AnimalsPage = (function () {
         if (!silent) _showSkeleton();
         return API.animals.list()
             .then(function (data) {
-                if (!data) data = {};
+                if (!data) data = [];
                 Utils.clearElement(_container);
-                if (!data.animals || data.animals.length === 0) {
+                if (!Array.isArray(data) || data.length === 0) {
                     _container.appendChild(Utils.createEmptyState('\uD83D\uDC3E', 'Aucun animal enregistre', 'Contactez votre clinique pour ajouter vos animaux'));
                     return;
                 }
                 var list = Utils.createElement('div', { className: 'animal-card-list' });
-                data.animals.forEach(function (animal) {
+                data.forEach(function (animal) {
                     list.appendChild(_renderAnimalCard(animal));
                 });
                 _container.appendChild(list);

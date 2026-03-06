@@ -2,6 +2,19 @@ var API = (function () {
     'use strict';
 
     var _pendingRequests = new Map();
+    var _TOKEN_KEY = 'infravet_auth_token';
+
+    function _getToken() {
+        try { return localStorage.getItem(_TOKEN_KEY); } catch (e) { return null; }
+    }
+
+    function _setToken(token) {
+        try { if (token) localStorage.setItem(_TOKEN_KEY, token); } catch (e) {}
+    }
+
+    function _removeToken() {
+        try { localStorage.removeItem(_TOKEN_KEY); } catch (e) {}
+    }
 
     function _request(method, endpoint, body, options) {
         options = options || {};
@@ -16,11 +29,14 @@ var API = (function () {
         }
 
         var headers = { 'Accept': 'application/json' };
+        var token = _getToken();
+        if (token) {
+            headers['Authorization'] = 'Bearer ' + token;
+        }
 
         var fetchOptions = {
             method: method,
-            headers: headers,
-            credentials: 'same-origin'
+            headers: headers
         };
 
         if (body && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
@@ -38,6 +54,7 @@ var API = (function () {
                 if (requestKey) _pendingRequests.delete(requestKey);
 
                 if (response.status === 401 && !options.skipAuthRedirect) {
+                    _removeToken();
                     window.dispatchEvent(new CustomEvent('session-expired'));
                     return Promise.reject({ status: 401, message: 'Session expiree. Veuillez vous reconnecter.' });
                 }
@@ -55,7 +72,9 @@ var API = (function () {
                 }
 
                 if (response.status === 204) return null;
-                return response.json();
+                return response.json().then(function (json) {
+                    return json.data !== undefined ? json.data : json;
+                });
             })
             .catch(function (err) {
                 if (requestKey) _pendingRequests.delete(requestKey);
@@ -78,13 +97,18 @@ var API = (function () {
                 return _request('POST', '/auth-request-code', { phone: phoneNumber }, { skipAuthRedirect: true });
             },
             verifyOtp: function (phoneNumber, otpCode) {
-                return _request('POST', '/auth-verify-code', { phone: phoneNumber, code: otpCode }, { skipAuthRedirect: true });
+                return _request('POST', '/auth-verify-code', { phone: phoneNumber, code: otpCode }, { skipAuthRedirect: true })
+                    .then(function (data) {
+                        if (data && data.token) _setToken(data.token);
+                        return data;
+                    });
             },
             me: function () {
                 return _request('GET', '/profile', null, { skipAuthRedirect: true });
             },
             logout: function () {
-                return _request('POST', '/auth-logout');
+                return _request('POST', '/auth-logout')
+                    .finally(function () { _removeToken(); });
             }
         },
 
@@ -173,6 +197,11 @@ var API = (function () {
             unsubscribe: function (endpoint) {
                 return _request('POST', '/push/unsubscribe', { endpoint: endpoint });
             }
+        },
+
+        token: {
+            exists: function () { return !!_getToken(); },
+            clear: function () { _removeToken(); }
         }
     };
 })();

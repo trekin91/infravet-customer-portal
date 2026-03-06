@@ -16,7 +16,7 @@ var AppointmentsPage = (function () {
     }
 
     function _renderAppointmentCard(appt) {
-        var d = new Date(appt.dateTime);
+        var d = new Date(appt.date_time);
         var card = Utils.createElement('article', { className: 'appt-card card' });
 
         var dateCol = Utils.createElement('div', { className: 'appt-card__date-col' });
@@ -28,12 +28,12 @@ var AppointmentsPage = (function () {
 
         var info = Utils.createElement('div', { className: 'appt-card__info' });
         info.appendChild(Utils.createElement('div', { className: 'appt-card__animal' }, [
-            Utils.escapeHtml(appt.animalName) + ' \u2014 ' + Utils.escapeHtml(appt.type)
+            Utils.escapeHtml(appt.animal_name) + ' \u2014 ' + Utils.escapeHtml(appt.type)
         ]));
         info.appendChild(Utils.createElement('div', { className: 'appt-card__reason' }, [Utils.escapeHtml(appt.reason)]));
 
         var meta = Utils.createElement('div', { className: 'appt-card__meta' });
-        meta.appendChild(Utils.createElement('span', {}, [Utils.formatTime(appt.dateTime) + ' (' + appt.duration + ' min)']));
+        meta.appendChild(Utils.createElement('span', {}, [Utils.formatTime(appt.date_time) + ' (' + appt.duration + ' min)']));
         meta.appendChild(Utils.createElement('span', {}, [Utils.escapeHtml(appt.veterinarian)]));
         info.appendChild(meta);
 
@@ -59,7 +59,7 @@ var AppointmentsPage = (function () {
         var dialog = Utils.createElement('div', { className: 'confirm-dialog card' });
         dialog.appendChild(Utils.createElement('h3', { className: 'confirm-title' }, ['Annuler ce rendez-vous ?']));
         dialog.appendChild(Utils.createElement('p', { className: 'confirm-text' }, [
-            Utils.escapeHtml(appt.animalName) + ' \u2014 ' + Utils.escapeHtml(appt.type) + '\n' + Utils.formatRelativeDate(appt.dateTime) + ' \u00e0 ' + Utils.formatTime(appt.dateTime)
+            Utils.escapeHtml(appt.animal_name) + ' \u2014 ' + Utils.escapeHtml(appt.type) + '\n' + Utils.formatRelativeDate(appt.date_time) + ' \u00e0 ' + Utils.formatTime(appt.date_time)
         ]));
         var actions = Utils.createElement('div', { className: 'confirm-actions' });
         actions.appendChild(Utils.createElement('button', {
@@ -133,15 +133,15 @@ var AppointmentsPage = (function () {
 
         return API.appointments.list({ status: _currentFilter })
             .then(function (data) {
-                if (!data) data = {};
+                if (!data) data = [];
                 Utils.clearElement(listEl);
-                if (!data.appointments || data.appointments.length === 0) {
+                if (!Array.isArray(data) || data.length === 0) {
                     var msg = _currentFilter === 'upcoming' ? 'Aucun rendez-vous a venir' : 'Aucun rendez-vous passe';
                     Utils.clearElement(listEl);
                     listEl.appendChild(Utils.createEmptyState('\uD83D\uDCC5', msg, _currentFilter === 'upcoming' ? 'Contactez votre clinique pour prendre rendez-vous' : null));
                     return;
                 }
-                data.appointments.forEach(function (appt) {
+                data.forEach(function (appt) {
                     listEl.appendChild(_renderAppointmentCard(appt));
                 });
             })

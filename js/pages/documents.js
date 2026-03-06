@@ -45,7 +45,7 @@ var DocumentsPage = (function () {
         var info = Utils.createElement('div', { className: 'doc-card__info' });
         info.appendChild(Utils.createElement('div', { className: 'doc-card__title' }, [Utils.escapeHtml(doc.title)]));
         info.appendChild(Utils.createElement('div', { className: 'doc-card__meta' }, [
-            Utils.escapeHtml(doc.animalName) + ' \u2022 ' + Utils.formatDate(doc.date) + ' \u2022 ' + Utils.formatFileSize(doc.fileSize)
+            Utils.escapeHtml(doc.animal_name) + ' \u2022 ' + Utils.formatDate(doc.date) + ' \u2022 ' + Utils.formatFileSize(doc.file_size)
         ]));
         card.appendChild(info);
 
@@ -63,8 +63,8 @@ var DocumentsPage = (function () {
     function _downloadDocument(docId) {
         API.documents.getDownloadUrl(docId)
             .then(function (data) {
-                if (data.downloadUrl && data.downloadUrl !== '#mock-download-' + docId) {
-                    window.open(data.downloadUrl, '_blank');
+                if (data.download_url && data.download_url !== '#mock-download-' + docId) {
+                    window.open(data.download_url, '_blank');
                 } else {
                     Utils.showToast('Telechargement simule (mode mock)', 'info');
                 }
@@ -97,13 +97,13 @@ var DocumentsPage = (function () {
 
         return API.documents.list(params)
             .then(function (data) {
-                if (!data) data = {};
+                if (!data) data = [];
                 Utils.clearElement(listEl);
-                if (!data.documents || data.documents.length === 0) {
+                if (!Array.isArray(data) || data.length === 0) {
                     listEl.appendChild(Utils.createEmptyState('\uD83D\uDCC4', 'Aucun document', 'Vos documents apparaitront ici apres vos consultations'));
                     return;
                 }
-                data.documents.forEach(function (doc) {
+                data.forEach(function (doc) {
                     listEl.appendChild(_renderDocumentCard(doc));
                 });
             })

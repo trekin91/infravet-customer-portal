@@ -100,23 +100,23 @@ var App = (function () {
 
                 document.title = name;
 
-                if (data.logoUrl) {
+                if (data.logo_url) {
                     var splashLogo = Utils.$('#splash-clinic-logo');
                     var authLogo = Utils.$('#auth-clinic-logo');
                     if (splashLogo) {
-                        splashLogo.src = data.logoUrl;
+                        splashLogo.src = data.logo_url;
                         splashLogo.alt = name;
                         splashLogo.hidden = false;
                     }
                     if (authLogo) {
-                        authLogo.src = data.logoUrl;
+                        authLogo.src = data.logo_url;
                         authLogo.alt = name;
                         authLogo.hidden = false;
                     }
                 }
 
                 var headerLogo = Utils.$('#header-clinic-logo');
-                var headerIconSrc = data.iconUrl || data.logoUrl;
+                var headerIconSrc = data.icon_url || data.logo_url;
                 if (headerLogo && headerIconSrc) {
                     headerLogo.src = headerIconSrc;
                     headerLogo.alt = name;

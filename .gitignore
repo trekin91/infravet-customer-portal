@@ -3,3 +3,6 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+.env
+assets/logo/icon.png
+assets/logo/infravet V1 transparent long.png
